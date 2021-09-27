@@ -27,12 +27,7 @@ class Verifier(Signer):
         if isinstance(signature, six.string_types):
             signature = signature.encode("ascii")
 
-        if self.sign_algorithm == 'rsa':
-            h = self._hash.new()
-            h.update(data)
-            return self._rsa.verify(h, base64.b64decode(signature))
-
-        elif self.sign_algorithm == 'hmac':
+        if self.sign_algorithm == 'hmac':
             h = self._sign_hmac(data)
             s = base64.b64decode(signature)
             return ct_bytes_compare(h, s)

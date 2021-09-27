@@ -1,8 +1,9 @@
 import base64
-import six
 import re
 import struct
 import hashlib
+
+import six
 
 try:
     # Python 3
@@ -13,16 +14,8 @@ except ImportError:
 
 from Crypto.Hash import SHA, SHA256, SHA512
 
-ALGORITHMS = frozenset([
-                'rsa-sha1',
-                'rsa-sha256',
-                'rsa-sha512',
-                'hmac-sha1',
-                'hmac-sha256',
-                'hmac-sha512'])
-HASHES = {'sha1':   SHA,
-          'sha256': SHA256,
-          'sha512': SHA512}
+ALGORITHMS = frozenset(['hmac-sha512'])
+HASHES = {'sha512': SHA512}
 
 
 class HttpSigException(Exception):
@@ -140,7 +133,7 @@ def build_signature_template(key_id, algorithm, headers, sign_header='authorizat
     Authorization header value.
     """
     param_map = {'keyId': key_id,
-                 'algorithm': algorithm,
+                 'algorithm': 'hs2019',
                  'signature': '%s'}
     if headers:
         headers = [h.lower() for h in headers]

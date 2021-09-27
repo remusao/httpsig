@@ -30,15 +30,7 @@ class Signer(object):
         self._hash = None
         self.sign_algorithm, self.hash_algorithm = algorithm.split('-')
 
-        if self.sign_algorithm == 'rsa':
-            try:
-                rsa_key = RSA.importKey(secret)
-                self._rsa = PKCS1_v1_5.new(rsa_key)
-                self._hash = HASHES[self.hash_algorithm]
-            except ValueError:
-                raise HttpSigException("Invalid key.")
-
-        elif self.sign_algorithm == 'hmac':
+        if self.sign_algorithm == 'hmac':
             self._hash = HMAC.new(secret,
                                   digestmod=HASHES[self.hash_algorithm])
 
